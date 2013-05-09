@@ -1,0 +1,98 @@
+#basic {
+z-index : 1;
+position : relative;
+background-color : white;
+}
+
+#top {
+z-index : 2;
+position : relative;
+height : 500px;
+background-color : #e6e6fa;
+border-bottom : 20px solid black;
+}
+
+#bottom {
+z-index : 2;
+position : relative;
+background-color : #8b4513;
+height : 200px;
+}
+
+
+#car {
+ z-index : 3;
+ position : absolute;
+ left : 100px;
+ top : 455px;
+ background : transparent url(../images/car.png) no-repeat;
+ width : 112px;
+ height : 45px;
+}
+
+#tree1{
+ z-index : 4;
+ position : absolute;
+ left : 400px;
+ top : 270px;
+ background : transparent url(../images/tree-8.png) no-repeat;
+ width : 130px;
+ height : 230px;
+
+}
+
+#tree2{
+ z-index : 2;
+ position : absolute;
+ left : 650px;
+ top : 200px;
+ background : transparent url(../images/tree-10.png) no-repeat;
+ width : 150px;
+ height : 300px;
+}
+
+#tree3{
+ z-index : 4;
+ position : absolute;
+ left : 900px;
+ top : 100px;
+ background : transparent url(../images/tree-12.png) no-repeat;
+ width : 170px;
+ height : 400px;  
+}
+
+
+#cloud1{
+ z-index : 2;
+ position : absolute;
+ left : 200px;
+ top : 100px;
+ background : transparent url(../images/cloud-1.png) no-repeat;
+ width : 250px;
+ height : 200px;  
+}
+
+#cloud2{
+ z-index : 2;
+ position : absolute;
+ left : 900px;
+ top : 50px;
+ background : transparent url(../images/cloud-1.png) no-repeat;
+ width : 250px;
+ height : 200px;  
+}
+body { padding:0; margin:0; }
+#plane {
+width:107px;
+background: transparent url(../images/plane.gif) no-repeat 100% 0%;
+height:48px;
+ position : absolute;		
+}
+.bomb {
+position:absolute;
+width:10px;
+height:10px;
+background:red;
+z-index:2;
+top:25px;
+}
