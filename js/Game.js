@@ -23,7 +23,7 @@ $(document).ready(function () {
                     this.plan_fly_direction = 'right';
                     this.flyheight = Math.floor(Math.random() * 100) + 10;
                     this.$plane.css({
-                        'background-image': 'url(../images/plane.gif)',
+                        'background-image': 'url(../drive-me/images/plane.gif)',
                         'background-position': '100% 0%'
                     });
                 }
@@ -37,7 +37,7 @@ $(document).ready(function () {
                     this.$plane.css('left', l);
                 } else {
                     this.$plane.css({
-                        'background-image': 'url(../images/plane1.gif)',
+                        'background-image': 'url(../drive-me/images/plane1.gif)',
                         'background-position': '0% 0%'
                     });
                     this.plan_fly_direction = 'left';
@@ -48,6 +48,7 @@ $(document).ready(function () {
 
         car_move: function (direction) {
 
+		  console.log('car move');
             var bombExists = false;
             if ($('.bomb').length != 0) {
                 bombExists = true;
@@ -63,7 +64,7 @@ $(document).ready(function () {
             var carTopPosition = car_position.top;
 
 
-
+              console.log('1');
             /******** when left key pressed   *****/
             if (direction == 'left') {
                 if (carLeftPosition > carwidth) {
@@ -71,39 +72,52 @@ $(document).ready(function () {
                     this.$car.css('left', l);
                 }
             }
-
+              console.log('2');
             /******** *******************  *****/
 
             /******** when right key pressed   *****/
             if (direction == 'right') {
+			   console.log('car move direction right');
                 var innerWidthWindow = this.windowWidth;
                 var carWidth = 2 * (carwidth);
                 if (parseInt(carLeftPosition) < parseInt(innerWidthWindow - carWidth)) {
                     var l = carLeftPosition + 10 + 'px';
                     this.$car.css('left', l);
                 }
+				
+				  console.log('4');
             }
 
+			  console.log('3');
             /******** *******************  *****/
 
             /******** exploding for all , right and left or still  *****/
             if (bombExists) {
-			    console.log('top ', bombTopPosition);
+                console.log('top ', bombTopPosition);
                 console.log('left ', bombleftposition);
                 if (parseInt(bombTopPosition == carTopPosition) || parseInt(bombTopPosition == (carTopPosition - 5))) {
                     //  if(bombleftposition == carLeftPosition){
-					
-				   console.log('showuld explode now');
-				   
-				    $('#car').hide('explode', { pieces: 10 }, 500);
-					
-                    
-                     }
-              //  }
+
+
+                    console.log('showuld explode now');
+
+                    $('#car').hide('explode', {
+                        pieces: 10
+                    }, 500);
+
+
+                }
+                //  }
             }
         },
 
         bombing: function () {
+
+             
+            var car_position = this.$car.position();
+            var carLeftPosition = car_position.left;
+            var carwidth = this.$car.width();
+            var carTopPosition = car_position.top;
             var self = this;
             if ($('.bomb').length) {
                 return;
@@ -118,28 +132,109 @@ $(document).ready(function () {
             });
             $('#basic').append($bomb);
             $('.bomb').animate({
-                top: 445,
-            },{ duration :5000,
-			    step: function(now, fx){
-                 console.log('function  step');
-				  var bombleftposition = $('.bomb').position().left;
-                var bombTopPosition = $('.bomb').position().top;
-				 var car_position = $('#car').position();
-				var carLeftPosition = car_position.left;
+                top: 490
+            }, {
+
+                duration: 15000,
 				
-            var carwidth = $('#car').width();
-            var carTopPosition = car_position.top;
-				  if (parseInt(bombTopPosition == carTopPosition) || parseInt(bombTopPosition == (carTopPosition - 5))) {
-                    //  if(bombleftposition == carLeftPosition){
+                step: function (now, fn) {
+                    var bombleftposition = $('.bomb').position().left;
+                    var bombTopPosition = $('.bomb').position().top;
+					var bombWidth = $('.bomb').width();
+					//console.log(bombWidth);
+					var bombHeight = $('.bomb').height();
+                    if (self.plan_fly_direction == 'right') {
+                        $(this).css({
+                            "background-color": "orange",
+                            "left": ((bombleftposition) + 1) + 'px',
+                            "top": (bombTopPosition + 1) + 'px' //,
+							/*"width" : (parseFloat(bombWidth) + 0.025) + 'px',
+							"height" : (bombHeight + 0.025) + 'px' */
+                        });
+                    } else {
+                        $(this).css({
+                            "background-color": "orange",
+                            "left": ((bombleftposition) - 1) + 'px',
+                            "top" : (bombTopPosition + 1) + 'px'//,
+						/*	"width" : (parseFloat(bombWidth) + 0.025) + 'px',
+							"height" : (bombHeight + 0.025) + 'px' */
+                        });
+
+                    }
+
+					var bombWidth = $('.bomb').width();
+				
+
+                    if ((now>=430) && (now<490)) {
+                        $(this).css({
+                            "background-color": "red"
+                        }
+
+                        );
+                    }
 					
-				   console.log('showuld explode now');
-				    $('#car').hide('explode', { pieces: 10 }, 500);
-                     }
-          }
-			}, function () {
-			    console.log('call back called');
-                $(this).stop().clearQueue();
-                $(this).remove();
+					 if (bombTopPosition == carTopPosition){
+					     $('#car').remove();
+						 
+						
+					     $('#car').css({
+                            "background-color": "yellow"
+							}
+                        );
+							$(this).stop().clearQueue();
+                    $(this).remove();
+						}
+				
+					 else {
+					if(now==490){
+							 
+					$(this).stop().clearQueue();
+                    $(this).remove();
+					
+				
+					}
+					
+						 if($('#car').length){
+						    console.log('still exists');
+						 }else{
+						    $('#plane').after($('<div/>', {
+                'id': 'car',
+                'css': {	
+						'z-index' : '3',
+						'position' : 'absolute',
+						'left' : '100px',
+						'top' : '455px',
+						'background' : 'transparent url(../drive-me/images/car.png) no-repeat',
+						'width' : '112px',
+						'height' : '45px'
+                },
+				complete : function() {  alert('complete');    }
+				
+            }));
+			
+			    $(document).keydown(function (e) {
+        if (e.keyCode == 37) {
+            Game.car_move('left');
+        } else if (e.keyCode == 39) {
+            Game.car_move('right');
+        }
+    });
+
+    $(document).keyup(function (e) {
+        console.log('key up after removing');
+        Game.car_move('still');
+    });
+			
+			}
+					}
+                   // console.log('step function');
+                },
+
+                /* queue : false ,  */
+                callback: function () {
+                    console.log('call back called');
+                   
+                }
             });
         }
     };
@@ -156,10 +251,9 @@ $(document).ready(function () {
             Game.car_move('right');
         }
     });
-	
-	$(document).keyup(function (e) {
-	       console.log('key up');
-            Game.car_move('still');
+
+    $(document).keyup(function (e) {
+        console.log('key up');
+        Game.car_move('still');
     });
 });
- 
