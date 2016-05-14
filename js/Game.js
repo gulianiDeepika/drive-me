@@ -47,8 +47,6 @@ $(document).ready(function () {
         },
 
         car_move: function (direction) {
-
-		  console.log('car move');
             var bombExists = false;
             if ($('.bomb').length != 0) {
                 bombExists = true;
@@ -62,9 +60,6 @@ $(document).ready(function () {
             var carLeftPosition = car_position.left;
             var carwidth = this.$car.width();
             var carTopPosition = car_position.top;
-
-
-              console.log('1');
             /******** when left key pressed   *****/
             if (direction == 'left') {
                 if (carLeftPosition > carwidth) {
@@ -72,23 +67,18 @@ $(document).ready(function () {
                     this.$car.css('left', l);
                 }
             }
-              console.log('2');
+
             /******** *******************  *****/
 
             /******** when right key pressed   *****/
             if (direction == 'right') {
-			   console.log('car move direction right');
                 var innerWidthWindow = this.windowWidth;
                 var carWidth = 2 * (carwidth);
                 if (parseInt(carLeftPosition) < parseInt(innerWidthWindow - carWidth)) {
                     var l = carLeftPosition + 10 + 'px';
                     this.$car.css('left', l);
                 }
-				
-				  console.log('4');
             }
-
-			  console.log('3');
             /******** *******************  *****/
 
             /******** exploding for all , right and left or still  *****/
@@ -96,24 +86,17 @@ $(document).ready(function () {
                 console.log('top ', bombTopPosition);
                 console.log('left ', bombleftposition);
                 if (parseInt(bombTopPosition == carTopPosition) || parseInt(bombTopPosition == (carTopPosition - 5))) {
-                    //  if(bombleftposition == carLeftPosition){
-
-
-                    console.log('showuld explode now');
-
                     $('#car').hide('explode', {
                         pieces: 10
                     }, 500);
-
-
                 }
-                //  }
+
             }
         },
 
         bombing: function () {
 
-             
+
             var car_position = this.$car.position();
             var carLeftPosition = car_position.left;
             var carwidth = this.$car.width();
@@ -136,7 +119,7 @@ $(document).ready(function () {
             }, {
 
                 duration: 15000,
-				
+
                 step: function (now, fn) {
                     var bombleftposition = $('.bomb').position().left;
                     var bombTopPosition = $('.bomb').position().top;
@@ -163,7 +146,7 @@ $(document).ready(function () {
                     }
 
 					var bombWidth = $('.bomb').width();
-				
+
 
                     if ((now>=430) && (now<490)) {
                         $(this).css({
@@ -172,11 +155,11 @@ $(document).ready(function () {
 
                         );
                     }
-					
+
 					 if (bombTopPosition == carTopPosition){
 					     $('#car').remove();
-						 
-						
+
+
 					     $('#car').css({
                             "background-color": "yellow"
 							}
@@ -184,22 +167,22 @@ $(document).ready(function () {
 							$(this).stop().clearQueue();
                     $(this).remove();
 						}
-				
+
 					 else {
 					if(now==490){
-							 
+
 					$(this).stop().clearQueue();
                     $(this).remove();
-					
-				
+
+
 					}
-					
+
 						 if($('#car').length){
 						    console.log('still exists');
 						 }else{
 						    $('#plane').after($('<div/>', {
                 'id': 'car',
-                'css': {	
+                'css': {
 						'z-index' : '3',
 						'position' : 'absolute',
 						'left' : '100px',
@@ -209,9 +192,9 @@ $(document).ready(function () {
 						'height' : '45px'
                 },
 				complete : function() {  alert('complete');    }
-				
+
             }));
-			
+
 			    $(document).keydown(function (e) {
         if (e.keyCode == 37) {
             Game.car_move('left');
@@ -224,7 +207,7 @@ $(document).ready(function () {
         console.log('key up after removing');
         Game.car_move('still');
     });
-			
+
 			}
 					}
                    // console.log('step function');
@@ -233,7 +216,7 @@ $(document).ready(function () {
                 /* queue : false ,  */
                 callback: function () {
                     console.log('call back called');
-                   
+
                 }
             });
         }
@@ -253,7 +236,6 @@ $(document).ready(function () {
     });
 
     $(document).keyup(function (e) {
-        console.log('key up');
         Game.car_move('still');
     });
 });
